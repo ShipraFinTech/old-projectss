@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+
+    <bean id="input" class="com.org.spring.Inuput">
+        <constructor-arg value="#{T(System).out}"/>
+        <constructor-arg ref="operator"/>
+    </bean>
+
+    <bean id="operator" class="com.org.spring.Operator">
+    </bean>
+    <bean id="test" class="com.org.spring.Test">
+        <constructor-arg value="#{T(System).out}"/>
+        <constructor-arg ref="operator"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect ref="input">
+            <aop:pointcut id="calculate" expression="execution(* com.org.spring.Inuput.calculateData())"/>
+            <aop:before pointcut-ref="calculate" method="beforeInput"/>
+            <aop:after pointcut-ref="calculate" method="afterInput"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--<aop:config>-->
+    <!--<aop:aspect ref="input">-->
+    <!--<aop:pointcut id="input"-->
+    <!--expression="execution(* *.calculateData(..))"/>-->
+    <!--<aop:before pointcut-ref="input"-->
+    <!--method="beforeInput"/>-->
+    <!--<aop:after pointcut-ref="input"-->
+    <!--method="afterInput"/>-->
+    <!--</aop:aspect>-->
+    <!--</aop:config>-->
+
+
+</beans>
